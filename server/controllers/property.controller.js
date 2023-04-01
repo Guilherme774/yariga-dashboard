@@ -17,7 +17,13 @@ cloudinary.config({
 
 const getAllProperties = async (req, res) => {};
 
-const getPropertyByID = async (req, res) => {};
+const getPropertyByID = async (req, res) => {
+    const { id } = req.params;
+    const properyExists = await Property.findOne({ _id: _id }).populate('creator');
+
+    if(properyExists) res.status(200).json(properyExists);
+    else res.status(404).json({ message: 'Property not found!' });
+};
 
 const createProperty = async (req, res) => {
     try {
@@ -48,7 +54,7 @@ const createProperty = async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(200).json({ message:'Property created successfully' });
+        res.status(201).json({ message:'Property created successfully' });
     } 
     catch (error) {
         res.status(500).json({ message: error.message });
@@ -56,7 +62,28 @@ const createProperty = async (req, res) => {
     
 };
 
-const updateProperty = async (req, res) => {};
+const updateProperty = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, propertyType, location, price, photo } = req.body;
+
+        const photoUrl = await cloudinary.uploader.upload(photo);
+
+        await Property.findByIdAndUpdate({ _id: id }, {
+            title,
+            description,
+            propertyType,
+            location,
+            price,
+            photo: photoUrl.url || photo
+        });
+
+        res.status(200).json({ message: 'Property updated successfully!' });
+    } 
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const deleteProperty = async (req, res) => {};
 

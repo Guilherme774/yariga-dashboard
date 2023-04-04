@@ -15,11 +15,22 @@ cloudinary.config({
 });
  
 
-const getAllProperties = async (req, res) => {};
+const getAllProperties = async (req, res) => {
+    try {
+        const properties = await Property.find({});
+
+        if(properties) res.status(200).json(properties);
+        else res.status(404).json({ message: 'No properties found!' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const getPropertyByID = async (req, res) => {
     const { id } = req.params;
-    const properyExists = await Property.findOne({ _id: _id }).populate('creator');
+
+    const properyExists = await Property.findOne({ _id: id }).populate('creator');
 
     if(properyExists) res.status(200).json(properyExists);
     else res.status(404).json({ message: 'Property not found!' });
@@ -49,7 +60,7 @@ const createProperty = async (req, res) => {
             creator: user._id
         })
 
-        super.allProperties.push(newProperty._id);
+        // allProperties.push(newProperty._id);
         await user.save({ session });
 
         await session.commitTransaction();
@@ -66,8 +77,9 @@ const updateProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, propertyType, location, price, photo } = req.body;
+        let photoUrl;
 
-        const photoUrl = await cloudinary.uploader.upload(photo);
+        if(photo) photoUrl = await cloudinary.uploader.upload(photo);
 
         await Property.findByIdAndUpdate({ _id: id }, {
             title,
@@ -85,7 +97,23 @@ const updateProperty = async (req, res) => {
     }
 };
 
-const deleteProperty = async (req, res) => {};
+const deleteProperty = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const property = await Property.findById({ _id: id });
+
+        if(property) {
+            await Property.deleteOne(property)
+
+            res.status(200).json({ message: 'Property successfully deleted!' });
+        }
+        else res.status(404).json({ message: 'Property not found!' });   
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });    
+    }
+};
 
 export {
     getAllProperties,

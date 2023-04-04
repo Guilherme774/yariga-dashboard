@@ -8,7 +8,7 @@ const router = express.Router();
 router.route('/').get(getAllProperties);
 router.route('/:id').get(getPropertyByID);
 router.route('/').post(createProperty);
-router.route('/:id').get(updateProperty);
-router.route('/:id').get(deleteProperty);
+router.route('/:id').put(updateProperty);
+router.route('/:id').delete(deleteProperty);
 
 export default router;

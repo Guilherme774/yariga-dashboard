@@ -51,7 +51,7 @@
 2. Install all the dependecies with "npm install"
 3. Create a MongoDB cluster
 4. Connect to the API
-5. Create a ".env" file and the past here your database credentials
+5. Create a ".env" file and the past here yours credentials
 6. Run "npm start" or "yarn start"
 
 <br>

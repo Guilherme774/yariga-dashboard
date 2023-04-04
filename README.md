@@ -1,6 +1,7 @@
 <h1>Yariga Dashboard</h1>
 
-> Status: Under development ⚠️
+> API Status: Finished ✅
+> Portal Status: Under development ⚠️
 
 ### That is a MERN Application developed for study purpose.
 ### That is a simple but  project, but i tried to use the best developments, git and clean code practices.

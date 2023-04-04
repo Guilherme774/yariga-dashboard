@@ -15,7 +15,17 @@ cloudinary.config({
 });
  
 
-const getAllProperties = async (req, res) => {};
+const getAllProperties = async (req, res) => {
+    try {
+        const properties = await Property.find({});
+
+        if(properties) res.status(200).json(properties);
+        else res.status(404).json({ message: 'No properties found!' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const getPropertyByID = async (req, res) => {
     const { id } = req.params;
@@ -49,7 +59,7 @@ const createProperty = async (req, res) => {
             creator: user._id
         })
 
-        super.allProperties.push(newProperty._id);
+        allProperties.push(newProperty._id);
         await user.save({ session });
 
         await session.commitTransaction();

@@ -5,7 +5,7 @@
 > Portal Status: Under development ⚠️
 
 ### That is a MERN Application developed for study purpose.
-### That is a simple but  project, but i tried to use the best developments, git and clean code practices.
+### That is a simple but very powerfull project, but i tried to use the best developments, git and clean code practices.
 
 <br>
 
